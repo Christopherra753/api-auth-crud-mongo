@@ -1,0 +1,4 @@
+node_modules
+database.js
+config.js
+.eslintrc.cjs
