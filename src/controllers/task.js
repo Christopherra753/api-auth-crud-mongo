@@ -2,14 +2,14 @@ import Task from '../models/task.js'
 import { validatePartialTask, validateTask } from '../schemas/task.js'
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find()
+  const tasks = await Task.find({ user: req.user.id })
   res.json(tasks)
 }
 export const createTask = async (req, res) => {
   const result = validateTask(req.body)
   if (result.error) return res.status(400).json(result.error.issues.map(error => error.message))
 
-  const newTask = new Task(req.body)
+  const newTask = new Task({ ...result.data, user: req.user.id })
   const savedTask = await newTask.save()
 
   res.json(savedTask)
@@ -31,7 +31,7 @@ export const deleteTask = async (req, res) => {
   const taskFound = await Task.findByIdAndDelete(id)
   if (!taskFound) return res.status(404).json(['Task not found'])
 
-  res.json(taskFound)
+  res.sendStatus(204)
 }
 export const updateTask = async (req, res) => {
   const { id } = req.params
