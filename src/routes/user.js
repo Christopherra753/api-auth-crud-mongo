@@ -3,7 +3,8 @@ import {
   login,
   logout,
   profile,
-  register
+  register,
+  verify
 } from '../controllers/user.js'
 import { verifyToken } from '../middlewares/verifyToken.js'
 
@@ -13,5 +14,6 @@ router.post('/login', login)
 router.post('/register', register)
 router.post('/logout', logout)
 router.get('/profile', verifyToken, profile)
+router.get('/verify', verify)
 
 export default router

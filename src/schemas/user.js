@@ -1,15 +1,17 @@
 import { z } from 'zod'
 
 const registerSchema = z.object({
+  email: z.string({
+    invalid_type_error: 'Email invalido',
+    required_error: 'Email requerido'
+  }).email({
+    message: 'Email invalido'
+  }),
   username: z.string({
     required_error: 'Username requerido',
     invalid_type_error: 'Username invalido'
-  }),
-  email: z.string({
-    required_error: 'Email requerido',
-    invalid_type_error: 'Email invalido'
-  }).email({
-    message: 'Email invalido'
+  }).min(1, {
+    message: 'Username requerido'
   }),
   password: z.string({
     required_error: 'Contraseña requerida',
